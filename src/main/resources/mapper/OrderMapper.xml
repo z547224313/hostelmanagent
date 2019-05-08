@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hostel.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.hostel.bean.Order">
+    <id column="ord_id" jdbcType="INTEGER" property="ordId" />
+    <result column="ord_peo_name" jdbcType="VARCHAR" property="ordPeoName" />
+    <result column="ord_peo_phone" jdbcType="VARCHAR" property="ordPeoPhone" />
+    <result column="ord_time" jdbcType="DATE" property="ordTime" />
+    <result column="night" jdbcType="INTEGER" property="night" />
+    <result column="ord_status" jdbcType="VARCHAR" property="ordStatus" />
+    <result column="ord_fee" jdbcType="DECIMAL" property="ordFee" />
+    <result column="ord_room_id" jdbcType="INTEGER" property="ordRoomId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ord_id, ord_peo_name, ord_peo_phone, ord_time, night, ord_status, ord_fee, ord_room_id
+  </sql>
+  <select id="selectByExample" parameterType="com.hostel.bean.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_order
+    where ord_id = #{ordId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_order
+    where ord_id = #{ordId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hostel.bean.OrderExample">
+    delete from tbl_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hostel.bean.Order">
+    insert into tbl_order (ord_id, ord_peo_name, ord_peo_phone, 
+      ord_time, night, ord_status, 
+      ord_fee, ord_room_id)
+    values (#{ordId,jdbcType=INTEGER}, #{ordPeoName,jdbcType=VARCHAR}, #{ordPeoPhone,jdbcType=VARCHAR}, 
+      #{ordTime,jdbcType=DATE}, #{night,jdbcType=INTEGER}, #{ordStatus,jdbcType=VARCHAR}, 
+      #{ordFee,jdbcType=DECIMAL}, #{ordRoomId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hostel.bean.Order">
+    insert into tbl_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ordId != null">
+        ord_id,
+      </if>
+      <if test="ordPeoName != null">
+        ord_peo_name,
+      </if>
+      <if test="ordPeoPhone != null">
+        ord_peo_phone,
+      </if>
+      <if test="ordTime != null">
+        ord_time,
+      </if>
+      <if test="night != null">
+        night,
+      </if>
+      <if test="ordStatus != null">
+        ord_status,
+      </if>
+      <if test="ordFee != null">
+        ord_fee,
+      </if>
+      <if test="ordRoomId != null">
+        ord_room_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ordId != null">
+        #{ordId,jdbcType=INTEGER},
+      </if>
+      <if test="ordPeoName != null">
+        #{ordPeoName,jdbcType=VARCHAR},
+      </if>
+      <if test="ordPeoPhone != null">
+        #{ordPeoPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="ordTime != null">
+        #{ordTime,jdbcType=DATE},
+      </if>
+      <if test="night != null">
+        #{night,jdbcType=INTEGER},
+      </if>
+      <if test="ordStatus != null">
+        #{ordStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordFee != null">
+        #{ordFee,jdbcType=DECIMAL},
+      </if>
+      <if test="ordRoomId != null">
+        #{ordRoomId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hostel.bean.OrderExample" resultType="java.lang.Long">
+    select count(*) from tbl_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tbl_order
+    <set>
+      <if test="record.ordId != null">
+        ord_id = #{record.ordId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordPeoName != null">
+        ord_peo_name = #{record.ordPeoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordPeoPhone != null">
+        ord_peo_phone = #{record.ordPeoPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordTime != null">
+        ord_time = #{record.ordTime,jdbcType=DATE},
+      </if>
+      <if test="record.night != null">
+        night = #{record.night,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordStatus != null">
+        ord_status = #{record.ordStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordFee != null">
+        ord_fee = #{record.ordFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ordRoomId != null">
+        ord_room_id = #{record.ordRoomId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tbl_order
+    set ord_id = #{record.ordId,jdbcType=INTEGER},
+      ord_peo_name = #{record.ordPeoName,jdbcType=VARCHAR},
+      ord_peo_phone = #{record.ordPeoPhone,jdbcType=VARCHAR},
+      ord_time = #{record.ordTime,jdbcType=DATE},
+      night = #{record.night,jdbcType=INTEGER},
+      ord_status = #{record.ordStatus,jdbcType=VARCHAR},
+      ord_fee = #{record.ordFee,jdbcType=DECIMAL},
+      ord_room_id = #{record.ordRoomId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hostel.bean.Order">
+    update tbl_order
+    <set>
+      <if test="ordPeoName != null">
+        ord_peo_name = #{ordPeoName,jdbcType=VARCHAR},
+      </if>
+      <if test="ordPeoPhone != null">
+        ord_peo_phone = #{ordPeoPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="ordTime != null">
+        ord_time = #{ordTime,jdbcType=DATE},
+      </if>
+      <if test="night != null">
+        night = #{night,jdbcType=INTEGER},
+      </if>
+      <if test="ordStatus != null">
+        ord_status = #{ordStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="ordFee != null">
+        ord_fee = #{ordFee,jdbcType=DECIMAL},
+      </if>
+      <if test="ordRoomId != null">
+        ord_room_id = #{ordRoomId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ord_id = #{ordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hostel.bean.Order">
+    update tbl_order
+    set ord_peo_name = #{ordPeoName,jdbcType=VARCHAR},
+      ord_peo_phone = #{ordPeoPhone,jdbcType=VARCHAR},
+      ord_time = #{ordTime,jdbcType=DATE},
+      night = #{night,jdbcType=INTEGER},
+      ord_status = #{ordStatus,jdbcType=VARCHAR},
+      ord_fee = #{ordFee,jdbcType=DECIMAL},
+      ord_room_id = #{ordRoomId,jdbcType=INTEGER}
+    where ord_id = #{ordId,jdbcType=INTEGER}
+  </update>
+  <select id="checkDeleteRoom" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(*) from tbl_order
+    where ord_room_id=#{ordRoomId,jdbcType=INTEGER} and ord_status!=3
+  </select>
+  <select id="selectPriceByDate" parameterType="java.util.Date" resultType="java.lang.Double">
+    select sum(ord_fee) from  tbl_order where ord_time = #{ordTime,jdbcType=DATE}
+  </select>
+  <select id="selectNightByDate" parameterType="java.util.Date" resultType="java.lang.Integer">
+    select sum(night) from tbl_order where ord_time = #{ordTime,jdbcType=DATE}
+  </select>
+</mapper>
